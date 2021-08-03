@@ -55,3 +55,156 @@ let carro: any = 'BMW'
 console.log(carro)
 carro = { marca: 'BMW', ano: 2000}
 console.log(carro)
+
+// funcoes
+function retornaNome(): string {
+    return nome
+}
+
+console.log(retornaNome())
+
+// funcao não retorna nada
+function digaOi(): void {
+    console.log('oi')
+}
+
+digaOi()
+
+function multiplicar(numA: number, numB: number): number {
+    return numA * numB
+}
+
+console.log(multiplicar(9, 5))
+
+// tipo função
+let calculo: (x: number, y: number) => number
+
+calculo = multiplicar
+console.log(calculo(3, 5))
+
+
+// objetos -> tanto faz a ordem
+let usuario: { name: string, age: number } = {
+    name: 'Dany',
+    age: 20
+}
+
+console.log(usuario)
+
+usuario = {
+    age: 20,
+    name: 'maria'
+}
+
+console.log(usuario)
+
+// Desafio:
+// 1. criar objeto funcionário com 2 atributos, o primeiro array de supervisores
+// 2. criar função bater ponto q recebe hora e retorna string
+
+let funcionario: {
+    nameSupervisores: string[],
+    baterPonto: (hora: number) => string 
+} = {
+    nameSupervisores: ['Arnaldo', 'Miranda', 'Josefa'],
+    baterPonto(hora: number): string {
+        if (hora <=8) {
+            return 'Ponto normal'
+        } else {
+            return 'Fora do horário'
+        }
+    }
+}
+
+console.log(funcionario.nameSupervisores)
+console.log(funcionario.baterPonto(8))
+
+
+//exemplo tipagem - usando/compartilhando o mesmo parametro
+
+type Funcionarios = {
+    nameSupervisores: string[],
+    baterPonto: (hora: number) => string 
+}
+
+let funcionario2: Funcionarios = {
+    nameSupervisores: ['Ana', 'Mel', 'Jose'],
+    baterPonto(hora: number): string {
+        if (hora <=8) {
+            return 'Ponto normal'
+        } else {
+            return 'Fora do horário'
+        }
+    }
+}
+console.log(funcionario2.nameSupervisores)
+
+// union types
+let nota: number | string = 10
+console.log(nota)
+
+// tipo never -> nunca vai retornar ou termina com erro
+function falha(msg: string): never {
+    throw new Error(msg)
+}
+
+const produto = {
+    nome: 'sabão',
+    preco: -1,
+    validarProduto() {
+        if(!this.nome || this.nome.trim().length == 0) {
+            falha('precisa de nome!')
+        }
+        if(this.preco <= 0) {
+            falha('preço invalido!')
+        }
+    }
+}
+
+// produto.validarProduto()
+
+// tipo null
+let alturaOpcional: null | number = 12
+alturaOpcional = null
+
+type Contato = {
+    nome: string,
+    tel1: number,
+    tel2: number | null
+}
+
+const contato1: Contato = {
+    nome: 'daniele',
+    tel1: 123456,
+    tel2: null
+}
+
+console.log(contato1.nome, contato1.tel1, contato1.tel2)
+
+// Desafio: aplicar tipos
+type ContaBancaria = {
+    saldo: number,
+    depositar: (valor: number) => void
+}
+
+type Correntista = {
+    nome: string,
+    contaBancaria: ContaBancaria,
+    contatos: string[]
+}
+
+let contaBancaria: ContaBancaria = {
+    saldo: 3456,
+    depositar(valor: number) {
+        this.saldo += valor
+    }
+}
+
+let correntista: Correntista = {
+    nome: 'Ana silva',
+    contaBancaria: contaBancaria,
+    contatos: ['123456789', '987654321']
+}
+
+correntista.contaBancaria.depositar(3000)
+console.log(correntista)
